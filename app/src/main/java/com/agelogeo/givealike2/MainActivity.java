@@ -1,23 +1,24 @@
 package com.agelogeo.givealike2;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    SQLiteDatabase myDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,17 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        createDatabase();
+        myDatabase = this.openOrCreateDatabase("Hashtags",MODE_PRIVATE,null);
+        myDatabase.execSQL("CREATE TABLE IF NOT EXISTS hashtags (category VARCHAR, subcategory VARCHAR , name VARCHAR)");
+        Cursor c = myDatabase.rawQuery("SELECT * FROM hashtags",null);
+        if(c.getCount()>0){
+            Log.i("DATABASE",Integer.toString(c.getCount()));
+        }else{
+            Log.i("DATABASE","Initialize database..");
+            initiateDatabase();
+        }
+        c.close();
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -103,11 +114,7 @@ public class MainActivity extends AppCompatActivity
         transaction.commit();
     }
 
-    public void createDatabase(){
-        SQLiteDatabase myDatabase = this.openOrCreateDatabase("Hashtags",MODE_PRIVATE,null);
-
-        myDatabase.execSQL("CREATE TABLE IF NOT EXISTS hashtags (category VARCHAR, subcategory VARCHAR , name VARCHAR)");
-
+    public void initiateDatabase(){
         myDatabase.execSQL("INSERT INTO hashtags (category,subcategory,name) VALUES " +
                 "('Animals','Animals General','#animals #animal #pet #dog #cat #dogs #cats #photooftheday #cute #instagood #animales #cute #love #nature #animallovers #pets_of_instagram #petstagram #petsagram')," +
                 "('Animals','Dogs','#dog #dog #puppy #pup #cute #eyes #instagood #dogs_of_instagram #pet #pets #animal #animals #petstagram #petsagram #dogsitting #photooftheday #dogsofinstagram #ilovemydog #instagramdogs #nature #dogstagram #dogoftheday #lovedogs #lovepuppies #hound #adorable #doglover #instapuppy #instadog')," +
