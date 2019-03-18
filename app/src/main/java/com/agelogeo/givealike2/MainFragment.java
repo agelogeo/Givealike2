@@ -256,7 +256,7 @@ public class MainFragment extends Fragment {
 
             Log.i("USERNAME",owner.getString("username"));
             Log.i("PROFILE_PIC_URL",owner.getString("profile_pic_url"));
-            customUsername.setText(owner.getString("username"));
+            customUsername.setText("@"+owner.getString("username"));
             customLikeView.setText(first_graphql_shortcode_media.getJSONObject("edge_media_preview_like").getString("count"));
             ProfileImageDownloader task = new ProfileImageDownloader();
             task.execute(owner.getString("profile_pic_url"));
