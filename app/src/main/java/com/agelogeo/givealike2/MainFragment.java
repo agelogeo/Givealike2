@@ -3,6 +3,7 @@ package com.agelogeo.givealike2;
 import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -96,7 +97,7 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        final View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         fab = view.findViewById(R.id.pasteButton);
         imageConstraint = view.findViewById(R.id.imageConstraintLayout);
@@ -134,10 +135,22 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getHashtagsBtn.setEnabled(true);
+                OpenCategory(view);
             }
         });
 
         return view;
+    }
+
+    public void OpenCategory(View v){
+        Intent i = new Intent(getContext(),CategoryActivity.class);
+        startActivityForResult(i,1);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     public void updateViewAfterPaste(){
