@@ -6,4 +6,471 @@
     android:layout_height="match_parent"
     tools:context=".CategoryActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/animals_View"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/animals" />
+
+            <Button
+                android:id="@+id/animals_Button"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:background="@drawable/list_gradient_bar"
+                android:selectAllOnFocus="false"
+                android:shadowColor="@color/colorPrimary"
+                android:tag="Animals"
+                android:text="  #Animals"
+                android:textAlignment="textStart"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/art_View"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/animals_View"
+                app:srcCompat="@drawable/art_photography" />
+
+            <Button
+                android:id="@+id/art_Button"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:background="@drawable/list_gradient_bar"
+                android:selectAllOnFocus="false"
+                android:shadowColor="@color/colorPrimary"
+                android:tag="Art/Photography"
+                android:text="  #Art / Photography"
+                android:textAlignment="textStart"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/animals_View" />
+
+            <ImageView
+                android:id="@+id/electronics_View"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/art_View"
+                app:srcCompat="@drawable/electronics_phone" />
+
+            <Button
+                android:id="@+id/electronics_Button"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:background="@drawable/list_gradient_bar"
+                android:selectAllOnFocus="false"
+                android:shadowColor="@color/colorPrimary"
+                android:tag="Electronics/Phone"
+                android:text="  #Electronics / Phone"
+                android:textAlignment="textStart"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/art_View" />
+
+
+            <ImageView
+                android:id="@+id/entertainment_View"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/electronics_View"
+                app:srcCompat="@drawable/entertainment" />
+
+            <Button
+                android:id="@+id/entertainment_Button"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:background="@drawable/list_gradient_bar"
+                android:selectAllOnFocus="false"
+                android:shadowColor="@color/colorPrimary"
+                android:tag="Entertainment"
+                android:text="  #Entertainment"
+                android:textAlignment="textStart"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/electronics_View" />
+
+
+            <ImageView
+                android:id="@+id/family_View"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/entertainment_View"
+                app:srcCompat="@drawable/kids" />
+
+            <Button
+                android:id="@+id/family_Button"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:background="@drawable/list_gradient_bar"
+                android:selectAllOnFocus="false"
+                android:shadowColor="@color/colorPrimary"
+                android:tag="Family/Kids"
+                android:text="  #Family / Kids"
+                android:textAlignment="textStart"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/entertainment_View" />
+
+            <ImageView
+                android:id="@+id/fashion_View"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/family_View"
+                app:srcCompat="@drawable/fashion" />
+
+            <Button
+                android:id="@+id/fashion_Button"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:background="@drawable/list_gradient_bar"
+                android:selectAllOnFocus="false"
+                android:shadowColor="@color/colorPrimary"
+                android:tag="Fashion"
+                android:text="  #Fashion"
+                android:textAlignment="textStart"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/family_View" />
+
+            <ImageView
+                android:id="@+id/social_View"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fashion_View"
+                app:srcCompat="@drawable/social" />
+
+            <Button
+                android:id="@+id/social_Button"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:background="@drawable/list_gradient_bar"
+                android:selectAllOnFocus="false"
+                android:shadowColor="@color/colorPrimary"
+                android:tag="Follow/Like/Comment"
+                android:text="  #Social"
+                android:textAlignment="textStart"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fashion_View" />
+
+            <ImageView
+                android:id="@+id/food_View"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/social_View"
+                app:srcCompat="@drawable/food" />
+
+            <Button
+                android:id="@+id/food_Button"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:background="@drawable/list_gradient_bar"
+                android:selectAllOnFocus="false"
+                android:shadowColor="@color/colorPrimary"
+                android:tag="Food"
+                android:text="  #Food"
+                android:textAlignment="textStart"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/social_View" />
+
+            <ImageView
+                android:id="@+id/holidays_View"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/food_View"
+                app:srcCompat="@drawable/holidays" />
+
+            <Button
+                android:id="@+id/holidays_Button"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:background="@drawable/list_gradient_bar"
+                android:selectAllOnFocus="false"
+                android:shadowColor="@color/colorPrimary"
+                android:tag="Holidays/Party"
+                android:text="  #Holidays / Party"
+                android:textAlignment="textStart"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/food_View" />
+
+
+            <ImageView
+                android:id="@+id/nature_View"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/holidays_View"
+                app:srcCompat="@drawable/nature" />
+
+            <Button
+                android:id="@+id/nature_Button"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:background="@drawable/list_gradient_bar"
+                android:selectAllOnFocus="false"
+                android:shadowColor="@color/colorPrimary"
+                android:tag="Nature"
+                android:text="  #Nature"
+                android:textAlignment="textStart"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/holidays_View" />
+
+
+            <ImageView
+                android:id="@+id/other_View"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nature_View"
+                app:srcCompat="@drawable/other" />
+
+            <Button
+                android:id="@+id/other_Button"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:background="@drawable/list_gradient_bar"
+                android:selectAllOnFocus="false"
+                android:shadowColor="@color/colorPrimary"
+                android:tag="Other"
+                android:text="  #Other"
+                android:textAlignment="textStart"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nature_View" />
+
+
+            <ImageView
+                android:id="@+id/popular_View"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/other_View"
+                app:srcCompat="@drawable/popular" />
+
+            <Button
+                android:id="@+id/popular_Button"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:background="@drawable/list_gradient_bar"
+                android:selectAllOnFocus="false"
+                android:shadowColor="@color/colorPrimary"
+                android:tag="Popular"
+                android:text="  #Popular"
+                android:textAlignment="textStart"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/other_View" />
+
+
+            <ImageView
+                android:id="@+id/people_View"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/popular_View"
+                app:srcCompat="@drawable/people" />
+
+            <Button
+                android:id="@+id/people_Button"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:background="@drawable/list_gradient_bar"
+                android:selectAllOnFocus="false"
+                android:shadowColor="@color/colorPrimary"
+                android:tag="Social/Love/People"
+                android:text="  #Love / People"
+                android:textAlignment="textStart"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/popular_View" />
+
+
+            <ImageView
+                android:id="@+id/sport_View"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/people_View"
+                app:srcCompat="@drawable/sport" />
+
+            <Button
+                android:id="@+id/sport_Button"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:background="@drawable/list_gradient_bar"
+                android:selectAllOnFocus="false"
+                android:shadowColor="@color/colorPrimary"
+                android:tag="Sport/Active/Travel"
+                android:text="  #Sport / Travel"
+                android:textAlignment="textStart"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/people_View" />
+
+
+            <ImageView
+                android:id="@+id/urban_View"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sport_View"
+                app:srcCompat="@drawable/urban" />
+
+            <Button
+                android:id="@+id/urban_Button"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:background="@drawable/list_gradient_bar"
+                android:selectAllOnFocus="false"
+                android:shadowColor="@color/colorPrimary"
+                android:tag="Urban"
+                android:text="  #Urban"
+                android:textAlignment="textStart"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sport_View" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
 </android.support.constraint.ConstraintLayout>
