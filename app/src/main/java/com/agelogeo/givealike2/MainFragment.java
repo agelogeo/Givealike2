@@ -56,7 +56,7 @@ public class MainFragment extends Fragment {
     TextView hashtagsView,customUsername,customLikeView;
     ImageView customPhotoWallpaper,customProfile;
     String link = "https://www.instagram.com/p/BvAkJnoDwmF/";
-    String tag = "";
+    String tag = "",clipboard = "" , hashtags[];
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -135,10 +135,18 @@ public class MainFragment extends Fragment {
                 hashtagsView.setVisibility(View.VISIBLE);
                 Cursor c = myDatabase.rawQuery("SELECT * FROM hashtags WHERE category='"+tag+"'",null);
                 if(c.getCount()>0){
-                    Log.i("DATABASE",Integer.toString(c.getCount()));
+                    String temp = "";
                     c.moveToFirst();
-                    Log.i("DATABASE",c.getString(2));
-                    hashtagsView.setText(c.getString(2));
+                    while(c.moveToNext()){
+                        temp += c.getString(2);
+                    }
+                    hashtags = temp.split("#");
+                    int randomNumber = randomWithRange(0,hashtags.length-20);
+                    clipboard = "";
+                    for(int i=randomNumber;i<randomNumber+20;i++){
+                        clipboard+= "#"+hashtags[i+1]+" ";
+                    }
+                    hashtagsView.setText(clipboard);
                 }else{
                     Log.i("DATABASE","No Result...");
                 }
@@ -159,6 +167,12 @@ public class MainFragment extends Fragment {
     public void OpenCategory(View v){
         Intent i = new Intent(getContext(),CategoryActivity.class);
         startActivityForResult(i,1);
+    }
+
+    int randomWithRange(int min, int max)
+    {
+        int range = (max - min) + 1;
+        return (int)(Math.random() * range) + min;
     }
 
     @Override
