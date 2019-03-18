@@ -36,4 +36,11 @@ public class CategoryActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public void onClickCategory(View v){
+        Intent i = new Intent();
+        i.putExtra("Category",v.getTag().toString());
+        setResult(RESULT_OK,i);
+        finish();
+    }
 }

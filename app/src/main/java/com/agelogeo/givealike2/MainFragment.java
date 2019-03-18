@@ -4,6 +4,8 @@ import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -54,6 +56,7 @@ public class MainFragment extends Fragment {
     TextView hashtagsView,customUsername,customLikeView;
     ImageView customPhotoWallpaper,customProfile;
     String link = "https://www.instagram.com/p/BvAkJnoDwmF/";
+    String tag = "";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -111,6 +114,8 @@ public class MainFragment extends Fragment {
 
         initializeUI();
 
+        final SQLiteDatabase myDatabase = getActivity().openOrCreateDatabase("Hashtags",getActivity().MODE_PRIVATE,null);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,13 +133,22 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 hashtagsView.setVisibility(View.VISIBLE);
+                Cursor c = myDatabase.rawQuery("SELECT * FROM hashtags WHERE category='"+tag+"'",null);
+                if(c.getCount()>0){
+                    Log.i("DATABASE",Integer.toString(c.getCount()));
+                    c.moveToFirst();
+                    Log.i("DATABASE",c.getString(2));
+                    hashtagsView.setText(c.getString(2));
+                }else{
+                    Log.i("DATABASE","No Result...");
+                }
+                c.close();
             }
         });
 
         categoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getHashtagsBtn.setEnabled(true);
                 OpenCategory(view);
             }
         });
@@ -151,6 +165,13 @@ public class MainFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if(requestCode == 1 && resultCode == getActivity().RESULT_OK){
+            Toast.makeText(getContext(),data.getStringExtra("Category"),Toast.LENGTH_SHORT).show();
+            getHashtagsBtn.setEnabled(true);
+            categoryButton.setText(data.getStringExtra("Category"));
+            tag = data.getStringExtra("Category");
+        }
+
     }
 
     public void updateViewAfterPaste(){
@@ -158,7 +179,7 @@ public class MainFragment extends Fragment {
         categoryButton.setVisibility(View.VISIBLE);
         getHashtagsBtn.setVisibility(View.VISIBLE);
         hashtagsView.setVisibility(View.GONE);
-
+        categoryButton.setText("Choose Category");
         getHashtagsBtn.setEnabled(false);
     }
 
