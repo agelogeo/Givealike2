@@ -49,8 +49,7 @@ public class MainFragment extends Fragment {
 
     FloatingActionButton fab;
     ConstraintLayout imageConstraint;
-    Spinner spinner;
-    Button getHashtagsBtn;
+    Button getHashtagsBtn,categoryButton;
     TextView hashtagsView,customUsername,customLikeView;
     ImageView customPhotoWallpaper,customProfile;
     String link = "https://www.instagram.com/p/BvAkJnoDwmF/";
@@ -101,7 +100,7 @@ public class MainFragment extends Fragment {
 
         fab = view.findViewById(R.id.pasteButton);
         imageConstraint = view.findViewById(R.id.imageConstraintLayout);
-        spinner = view.findViewById(R.id.spinner);
+        categoryButton = view.findViewById(R.id.categoryButton);
         getHashtagsBtn = view.findViewById(R.id.getHashtagsButton);
         hashtagsView = view.findViewById(R.id.hashtagsTextView);
         customPhotoWallpaper = view.findViewById(R.id.custom_photoWallpaper);
@@ -109,6 +108,7 @@ public class MainFragment extends Fragment {
         customUsername = view.findViewById(R.id.custom_usernameTextView);
         customLikeView = view.findViewById(R.id.customLikeView);
 
+        initializeUI();
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,13 +130,29 @@ public class MainFragment extends Fragment {
             }
         });
 
+        categoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getHashtagsBtn.setEnabled(true);
+            }
+        });
+
         return view;
     }
 
     public void updateViewAfterPaste(){
         imageConstraint.setVisibility(View.VISIBLE);
-        spinner.setVisibility(View.VISIBLE);
+        categoryButton.setVisibility(View.VISIBLE);
         getHashtagsBtn.setVisibility(View.VISIBLE);
+        hashtagsView.setVisibility(View.GONE);
+
+        getHashtagsBtn.setEnabled(false);
+    }
+
+    public void initializeUI(){
+        imageConstraint.setVisibility(View.GONE);
+        categoryButton.setVisibility(View.GONE);
+        getHashtagsBtn.setVisibility(View.GONE);
         hashtagsView.setVisibility(View.GONE);
     }
 
@@ -229,12 +245,14 @@ public class MainFragment extends Fragment {
             Log.i("PROFILE_PIC_URL",owner.getString("profile_pic_url"));
             customUsername.setText(owner.getString("username"));
             customLikeView.setText(first_graphql_shortcode_media.getJSONObject("edge_media_preview_like").getString("count"));
+            ProfileImageDownloader task = new ProfileImageDownloader();
+            task.execute(owner.getString("profile_pic_url"));
 
             if(first_graphql_shortcode_media.has("edge_sidecar_to_children")){
                 JSONArray children_edges = first_graphql_shortcode_media.getJSONObject("edge_sidecar_to_children").getJSONArray("edges");
                 Log.i("WITH_CHILDREN_COUNT",Integer.toString(children_edges.length()));
 
-                for(int i=0; i<2; i++){
+                for(int i=0; i<1; i++){
                     JSONObject node = children_edges.getJSONObject(i).getJSONObject("node");
 
                     if(node.has("video_url")){
@@ -291,6 +309,34 @@ public class MainFragment extends Fragment {
         protected void onPostExecute(Bitmap bitmap) {
             customPhotoWallpaper.setImageBitmap(bitmap);
             updateViewAfterPaste();
+            //imageGrid.setAdapter(new ImageAdapter(getActivity().getApplicationContext(), bitmapList));
+
+        }
+    }
+
+    public class ProfileImageDownloader extends AsyncTask<String,Void, Bitmap> {
+
+        @Override
+        protected Bitmap doInBackground(String... urls) {
+            try{
+                URL url = new URL(urls[0]);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.connect();
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(inputStream);
+
+                return myBitmap;
+
+            }catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            customProfile.setImageBitmap(bitmap);
             //imageGrid.setAdapter(new ImageAdapter(getActivity().getApplicationContext(), bitmapList));
 
         }
