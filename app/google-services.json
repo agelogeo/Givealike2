@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "856141979893",
+    "firebase_url": "https://givealike2.firebaseio.com",
+    "project_id": "givealike2",
+    "storage_bucket": "givealike2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:856141979893:android:eaaf0a7d25f7f2d7",
+        "android_client_info": {
+          "package_name": "com.givealike.givealike2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "856141979893-u3bn8oscnn7iokvhokc439vvjdt9cqe0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.givealike.givealike2",
+            "certificate_hash": "94f9e182a82a9e40209b8c4fc5b5d356e130ef77"
+          }
+        },
+        {
+          "client_id": "856141979893-ddf6jsa43p0d7jlppms70gnhb76useuf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDoFMnyUF8AGg30aKiQLO6Cffw8Qs-2oo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "856141979893-ddf6jsa43p0d7jlppms70gnhb76useuf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
