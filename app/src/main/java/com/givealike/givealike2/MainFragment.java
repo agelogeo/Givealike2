@@ -1,4 +1,4 @@
-package com.agelogeo.givealike2;
+package com.givealike.givealike2;
 
 import android.content.ClipDescription;
 import android.content.ClipboardManager;
@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 

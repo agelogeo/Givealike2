@@ -1,4 +1,4 @@
-package com.agelogeo.givealike2;
+package com.givealike.givealike2;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

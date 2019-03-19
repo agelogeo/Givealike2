@@ -1,4 +1,4 @@
-package com.agelogeo.givealike2;
+package com.givealike.givealike2;
 
 import android.content.DialogInterface;
 import android.content.Intent;
