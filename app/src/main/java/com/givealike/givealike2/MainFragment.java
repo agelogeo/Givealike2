@@ -59,10 +59,6 @@ public class MainFragment extends Fragment {
     String link = "https://www.instagram.com/p/BvAkJnoDwmF/";
     String tag = "",clipboard = "" , hashtags[];
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private OnFragmentInteractionListener mListener;
 
     public MainFragment() {
@@ -91,8 +87,9 @@ public class MainFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            // TODO: Rename and change types of parameters
+            String mParam1 = getArguments().getString(ARG_PARAM1);
+            String mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
 
@@ -159,14 +156,14 @@ public class MainFragment extends Fragment {
         categoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OpenCategory(view);
+                OpenCategory();
             }
         });
 
         return view;
     }
 
-    public void OpenCategory(View v){
+    public void OpenCategory(){
         Intent i = new Intent(getContext(),CategoryActivity.class);
         startActivityForResult(i,1);
     }
@@ -196,7 +193,7 @@ public class MainFragment extends Fragment {
         getHashtagsBtn.setVisibility(View.VISIBLE);
         hashtagsView.setVisibility(View.GONE);
         pasteTextView.setVisibility(View.GONE);
-        categoryButton.setText("Choose Category");
+        categoryButton.setText(getString(R.string.choose_category));
         getHashtagsBtn.setEnabled(false);
     }
 
@@ -254,9 +251,9 @@ public class MainFragment extends Fragment {
 
         @Override
         protected String doInBackground(String... urls) {
-            String result = "",line = null;
+            String result = "",line;
             URL url;
-            HttpURLConnection urlConnection = null;
+            HttpURLConnection urlConnection;
 
             try{
                 url = new URL(urls[0]);
@@ -353,9 +350,8 @@ public class MainFragment extends Fragment {
                 httpURLConnection.connect();
 
                 InputStream inputStream = httpURLConnection.getInputStream();
-                Bitmap myBitmap = BitmapFactory.decodeStream(inputStream);
 
-                return myBitmap;
+                return BitmapFactory.decodeStream(inputStream);
 
             }catch (Exception e){
                 e.printStackTrace();
@@ -382,9 +378,8 @@ public class MainFragment extends Fragment {
                 httpURLConnection.connect();
 
                 InputStream inputStream = httpURLConnection.getInputStream();
-                Bitmap myBitmap = BitmapFactory.decodeStream(inputStream);
 
-                return myBitmap;
+                return BitmapFactory.decodeStream(inputStream);
 
             }catch (Exception e){
                 e.printStackTrace();

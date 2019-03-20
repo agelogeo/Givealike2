@@ -23,10 +23,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/animals" />
+                app:srcCompat="@drawable/animals"
+                android:contentDescription="TODO" />
 
             <Button
-                android:id="@+id/animals_Button"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:background="@drawable/list_gradient_bar"
@@ -34,7 +34,7 @@
                 android:selectAllOnFocus="false"
                 android:shadowColor="@color/colorPrimary"
                 android:tag="Animals"
-                android:text="  #Animals"
+                android:text="@string/animals"
                 android:textAlignment="textStart"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
@@ -53,10 +53,10 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/animals_View"
-                app:srcCompat="@drawable/art_photography" />
+                app:srcCompat="@drawable/art_photography"
+                android:contentDescription="TODO" />
 
             <Button
-                android:id="@+id/art_Button"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:background="@drawable/list_gradient_bar"
@@ -64,7 +64,7 @@
                 android:selectAllOnFocus="false"
                 android:shadowColor="@color/colorPrimary"
                 android:tag="Art/Photography"
-                android:text="  #Art / Photography"
+                android:text="@string/art_photography"
                 android:textAlignment="textStart"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
@@ -84,10 +84,10 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/art_View"
-                app:srcCompat="@drawable/electronics_phone" />
+                app:srcCompat="@drawable/electronics_phone"
+                android:contentDescription="TODO" />
 
             <Button
-                android:id="@+id/electronics_Button"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:background="@drawable/list_gradient_bar"
@@ -95,7 +95,7 @@
                 android:selectAllOnFocus="false"
                 android:shadowColor="@color/colorPrimary"
                 android:tag="Electronics/Phone"
-                android:text="  #Electronics / Phone"
+                android:text="@string/electronics_phone"
                 android:textAlignment="textStart"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
@@ -116,10 +116,10 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/electronics_View"
-                app:srcCompat="@drawable/entertainment" />
+                app:srcCompat="@drawable/entertainment"
+                android:contentDescription="TODO" />
 
             <Button
-                android:id="@+id/entertainment_Button"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:background="@drawable/list_gradient_bar"
@@ -127,7 +127,7 @@
                 android:selectAllOnFocus="false"
                 android:shadowColor="@color/colorPrimary"
                 android:tag="Entertainment"
-                android:text="  #Entertainment"
+                android:text="@string/entertainment"
                 android:textAlignment="textStart"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
@@ -148,10 +148,10 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/entertainment_View"
-                app:srcCompat="@drawable/kids" />
+                app:srcCompat="@drawable/kids"
+                android:contentDescription="TODO" />
 
             <Button
-                android:id="@+id/family_Button"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:background="@drawable/list_gradient_bar"
@@ -159,7 +159,7 @@
                 android:selectAllOnFocus="false"
                 android:shadowColor="@color/colorPrimary"
                 android:tag="Family/Kids"
-                android:text="  #Family / Kids"
+                android:text="@string/family_kids"
                 android:textAlignment="textStart"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
@@ -179,10 +179,10 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/family_View"
-                app:srcCompat="@drawable/fashion" />
+                app:srcCompat="@drawable/fashion"
+                android:contentDescription="TODO" />
 
             <Button
-                android:id="@+id/fashion_Button"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:background="@drawable/list_gradient_bar"
@@ -190,7 +190,7 @@
                 android:selectAllOnFocus="false"
                 android:shadowColor="@color/colorPrimary"
                 android:tag="Fashion"
-                android:text="  #Fashion"
+                android:text="@string/fashion"
                 android:textAlignment="textStart"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
@@ -210,10 +210,10 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fashion_View"
-                app:srcCompat="@drawable/social" />
+                app:srcCompat="@drawable/social"
+                android:contentDescription="TODO" />
 
             <Button
-                android:id="@+id/social_Button"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:background="@drawable/list_gradient_bar"
@@ -221,7 +221,7 @@
                 android:selectAllOnFocus="false"
                 android:shadowColor="@color/colorPrimary"
                 android:tag="Follow/Like/Comment"
-                android:text="  #Social"
+                android:text="@string/social"
                 android:textAlignment="textStart"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
@@ -241,10 +241,10 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/social_View"
-                app:srcCompat="@drawable/food" />
+                app:srcCompat="@drawable/food"
+                android:contentDescription="TODO" />
 
             <Button
-                android:id="@+id/food_Button"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:background="@drawable/list_gradient_bar"
@@ -252,7 +252,7 @@
                 android:selectAllOnFocus="false"
                 android:shadowColor="@color/colorPrimary"
                 android:tag="Food"
-                android:text="  #Food"
+                android:text="@string/food"
                 android:textAlignment="textStart"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
@@ -272,10 +272,10 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/food_View"
-                app:srcCompat="@drawable/holidays" />
+                app:srcCompat="@drawable/holidays"
+                android:contentDescription="TODO" />
 
             <Button
-                android:id="@+id/holidays_Button"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:background="@drawable/list_gradient_bar"
@@ -283,7 +283,7 @@
                 android:selectAllOnFocus="false"
                 android:shadowColor="@color/colorPrimary"
                 android:tag="Holidays/Party"
-                android:text="  #Holidays / Party"
+                android:text="@string/holidays_party"
                 android:textAlignment="textStart"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
@@ -304,10 +304,10 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/holidays_View"
-                app:srcCompat="@drawable/nature" />
+                app:srcCompat="@drawable/nature"
+                android:contentDescription="TODO" />
 
             <Button
-                android:id="@+id/nature_Button"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:background="@drawable/list_gradient_bar"
@@ -315,7 +315,7 @@
                 android:selectAllOnFocus="false"
                 android:shadowColor="@color/colorPrimary"
                 android:tag="Nature"
-                android:text="  #Nature"
+                android:text="@string/nature"
                 android:textAlignment="textStart"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
@@ -336,10 +336,10 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/nature_View"
-                app:srcCompat="@drawable/other" />
+                app:srcCompat="@drawable/other"
+                android:contentDescription="TODO" />
 
             <Button
-                android:id="@+id/other_Button"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:background="@drawable/list_gradient_bar"
@@ -347,7 +347,7 @@
                 android:selectAllOnFocus="false"
                 android:shadowColor="@color/colorPrimary"
                 android:tag="Other"
-                android:text="  #Other"
+                android:text="@string/other"
                 android:textAlignment="textStart"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
@@ -368,10 +368,10 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/other_View"
-                app:srcCompat="@drawable/popular" />
+                app:srcCompat="@drawable/popular"
+                android:contentDescription="TODO" />
 
             <Button
-                android:id="@+id/popular_Button"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:background="@drawable/list_gradient_bar"
@@ -379,7 +379,7 @@
                 android:selectAllOnFocus="false"
                 android:shadowColor="@color/colorPrimary"
                 android:tag="Popular"
-                android:text="  #Popular"
+                android:text="@string/popular"
                 android:textAlignment="textStart"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
@@ -400,10 +400,10 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/popular_View"
-                app:srcCompat="@drawable/people" />
+                app:srcCompat="@drawable/people"
+                android:contentDescription="TODO" />
 
             <Button
-                android:id="@+id/people_Button"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:background="@drawable/list_gradient_bar"
@@ -411,7 +411,7 @@
                 android:selectAllOnFocus="false"
                 android:shadowColor="@color/colorPrimary"
                 android:tag="Social/Love/People"
-                android:text="  #Love / People"
+                android:text="@string/love_people"
                 android:textAlignment="textStart"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
@@ -432,10 +432,10 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/people_View"
-                app:srcCompat="@drawable/sport" />
+                app:srcCompat="@drawable/sport"
+                android:contentDescription="TODO" />
 
             <Button
-                android:id="@+id/sport_Button"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:background="@drawable/list_gradient_bar"
@@ -443,7 +443,7 @@
                 android:selectAllOnFocus="false"
                 android:shadowColor="@color/colorPrimary"
                 android:tag="Sport/Active/Travel"
-                android:text="  #Sport / Travel"
+                android:text="@string/sport_travel"
                 android:textAlignment="textStart"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
@@ -455,7 +455,6 @@
 
 
             <ImageView
-                android:id="@+id/urban_View"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:cropToPadding="false"
@@ -464,10 +463,10 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sport_View"
-                app:srcCompat="@drawable/urban" />
+                app:srcCompat="@drawable/urban"
+                android:contentDescription="TODO" />
 
             <Button
-                android:id="@+id/urban_Button"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
                 android:background="@drawable/list_gradient_bar"
@@ -475,7 +474,7 @@
                 android:selectAllOnFocus="false"
                 android:shadowColor="@color/colorPrimary"
                 android:tag="Urban"
-                android:text="  #Urban"
+                android:text="@string/urban"
                 android:textAlignment="textStart"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"

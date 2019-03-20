@@ -7,35 +7,31 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/baseline_home_black_48dp"
-            android:title="Home" />
+            android:title="@string/home" />
         <item
-            android:id="@+id/nav_help"
             android:icon="@drawable/baseline_help_black_48dp"
-            android:title="Guidelines" />
+            android:title="@string/guidelines" />
         <item
             android:id="@+id/nav_log_out"
             android:icon="@drawable/baseline_keyboard_return_black_48dp"
-            android:title="Log out"/>
+            android:title="@string/log_out"/>
     </group>
 
-    <item android:title="More">
+    <item android:title="@string/more">
         <menu>
             <item
-                android:id="@+id/nav_contact"
                 android:icon="@drawable/baseline_contact_mail_black_48dp"
-                android:title="Contact" />
+                android:title="@string/contact" />
             <item
-                android:id="@+id/nav_terms"
                 android:icon="@drawable/baseline_chrome_reader_mode_black_48dp"
-                android:title="Terms" />
+                android:title="@string/terms" />
             <item
-                android:id="@+id/nav_privacy"
                 android:icon="@drawable/baseline_security_black_48dp"
-                android:title="Privacy" />
+                android:title="@string/privacy" />
             <item
                 android:id="@+id/nav_about"
                 android:icon="@drawable/baseline_info_black_48dp"
-                android:title="About" />
+                android:title="@string/about" />
         </menu>
     </item>
 

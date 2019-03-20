@@ -37,7 +37,7 @@
             android:id="@+id/custom_photoWallpaper"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/todo"
             android:cropToPadding="false"
             android:scaleType="center"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -48,7 +48,6 @@
             app:srcCompat="@drawable/side_nav_bar" />
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/custom_constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@drawable/custom_bar_gradient_3"
@@ -67,7 +66,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@mipmap/ic_launcher_round" />
+                app:srcCompat="@mipmap/ic_launcher_round"
+                android:contentDescription="TODO" />
 
             <TextView
                 android:id="@+id/custom_usernameTextView"
@@ -76,7 +76,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:gravity="center_horizontal|center_vertical"
-                android:text="\@instagram"
+                android:text="@string/instagram"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"
@@ -96,7 +96,8 @@
                 android:tint="@android:color/holo_red_dark"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="TODO" />
 
             <TextView
                 android:id="@+id/customLikeView"
@@ -106,7 +107,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:gravity="center_vertical"
-                android:text="1523"
+                android:text="@string/_1523"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -126,7 +127,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="@android:color/holo_blue_light"
-        android:text="Choose Category"
+        android:text="@string/choose_category"
         app:layout_constraintEnd_toStartOf="@+id/getHashtagsButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageConstraintLayout" />
@@ -139,7 +140,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="@android:color/holo_blue_light"
-        android:text="Get Hashtags"
+        android:text="@string/get_hashtags"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/categoryButton"
@@ -153,7 +154,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:padding="5dp"
-        android:text="#photography #photo #photos #pic #pics #picture #pictures #snapshot #art #beautiful #instagood #picoftheday #photooftheday #color #all_shots #exposure #composition #focus #capture #moment"
+        android:text="@string/photography_photo_photos_pic_pics_picture_pictures_snapshot_art_beautiful_instagood_picoftheday_photooftheday_color_all_shots_exposure_composition_focus_capture_moment"
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="18sp"
@@ -169,7 +170,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="32dp"
-        android:text="Click here to paste a link  -->"
+        android:text="@string/click_here_to_paste_a_link"
         android:textAlignment="center"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"

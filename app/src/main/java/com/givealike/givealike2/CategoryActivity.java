@@ -19,7 +19,7 @@ public class CategoryActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
-    public void sendMeHome(View v){
+    public void sendMeHome(){
         Intent i = new Intent();
         String message = "";
         i.putExtra("Data",message);

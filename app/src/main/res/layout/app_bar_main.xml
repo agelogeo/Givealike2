@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/chewy"
-                android:text="Givealike II"
+                android:text="@string/givealike_ii"
                 android:textColor="#ffffff"
                 android:textSize="24sp" />
         </android.support.v7.widget.Toolbar>
