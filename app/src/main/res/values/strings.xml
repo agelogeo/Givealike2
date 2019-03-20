@@ -43,6 +43,9 @@
     <string name="log_in">Log In</string>
 
     <string name="banner_ad_unit_id">ca-app-pub-4781041300358039/1029358837</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-4781041300358039/1077815512</string>
+    <string name="reward_ad_unit_id">ca-app-pub-4781041300358039/8764733843</string>
+
 
 
     <!-- TODO: Remove or change this placeholder text -->

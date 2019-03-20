@@ -223,9 +223,17 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == 1 && resultCode == getActivity().RESULT_OK){
-            Toast.makeText(getContext(),data.getStringExtra("Category"),Toast.LENGTH_SHORT).show();
-            loadRewardedVideoAd();
-            getHashtagsBtn.setText("Please wait...");
+            //Toast.makeText(getContext(),data.getStringExtra("Category"),Toast.LENGTH_SHORT).show();
+            if(!mRewardedVideoAd.isLoaded()) {
+                loadRewardedVideoAd();
+                getHashtagsBtn.setText("Please wait...");
+                getHashtagsBtn.setEnabled(false);
+            }
+            if(!mInterstitialAd.isLoaded()) {
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                getHashtagsBtn.setText("Please wait...");
+                getHashtagsBtn.setEnabled(false);
+            }
             categoryButton.setText(data.getStringExtra("Category"));
             tag = data.getStringExtra("Category");
         }
@@ -308,16 +316,6 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
 
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
@@ -427,34 +425,6 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
         }
     }
 
-
-    public class ImageDownloader extends AsyncTask<String,Void, Bitmap> {
-
-        @Override
-        protected Bitmap doInBackground(String... urls) {
-            try{
-                URL url = new URL(urls[0]);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.connect();
-
-                InputStream inputStream = httpURLConnection.getInputStream();
-
-                return BitmapFactory.decodeStream(inputStream);
-
-            }catch (Exception e){
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            customPhotoWallpaper.setImageBitmap(bitmap);
-            updateViewAfterPaste();
-            //imageGrid.setAdapter(new ImageAdapter(getActivity().getApplicationContext(), bitmapList));
-
-        }
-    }
 
     public class ProfileImageDownloader extends AsyncTask<String,Void, Bitmap> {
 
