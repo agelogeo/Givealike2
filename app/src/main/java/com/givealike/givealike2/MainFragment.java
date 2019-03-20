@@ -1,5 +1,6 @@
 package com.givealike.givealike2;
 
+import android.app.Activity;
 import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -11,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -52,6 +54,7 @@ public class MainFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private AdView adView;
+    private InterstitialAd interstitialAd;
     FloatingActionButton fab;
     ConstraintLayout imageConstraint;
     Button getHashtagsBtn,categoryButton;
@@ -113,15 +116,49 @@ public class MainFragment extends Fragment {
         pasteTextView = view.findViewById(R.id.pasteTextView);
 
         adView = new AdView(getContext(), "387303098519331_387304648519176", AdSize.BANNER_HEIGHT_50);
+        interstitialAd = new InterstitialAd(getContext(), "387303098519331_387317678517873");
+        interstitialAd.setAdListener(new InterstitialAdListener() {
+            @Override
+            public void onInterstitialDisplayed(Ad ad) {
+
+            }
+
+            @Override
+            public void onInterstitialDismissed(Ad ad) {
+                interstitialAd.loadAd();
+            }
+
+            @Override
+            public void onError(Ad ad, AdError adError) {
+
+            }
+
+            @Override
+            public void onAdLoaded(Ad ad) {
+
+            }
+
+            @Override
+            public void onAdClicked(Ad ad) {
+
+            }
+
+            @Override
+            public void onLoggingImpression(Ad ad) {
+
+            }
+        });
+
 
         // Find the Ad Container
         LinearLayout adContainer = (LinearLayout) view.findViewById(R.id.banner_container);
 
         // Add the ad view to your activity layout
         adContainer.addView(adView);
-
+        AdSettings.addTestDevice("bef8d509-3e70-4f18-acf5-9fdf16ccb631");
         // Request an ad
         adView.loadAd();
+        interstitialAd.loadAd();
 
         initializeUI();
 
@@ -143,6 +180,8 @@ public class MainFragment extends Fragment {
         getHashtagsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(interstitialAd.isAdLoaded())
+                    interstitialAd.show();
                 hashtagsView.setVisibility(View.VISIBLE);
                 Cursor c = myDatabase.rawQuery("SELECT * FROM hashtags WHERE category='"+tag+"'",null);
                 if(c.getCount()>0){
@@ -152,10 +191,10 @@ public class MainFragment extends Fragment {
                         temp += c.getString(2);
                     }
                     hashtags = temp.split("#");
-                    int randomNumber = randomWithRange(0,hashtags.length-20);
+                    int randomNumber = randomWithRange(1,hashtags.length-20);
                     clipboard = "";
                     for(int i=randomNumber;i<randomNumber+20;i++){
-                        clipboard+= "#"+hashtags[i+1]+" ";
+                        clipboard+= "#"+hashtags[i]+" ";
                     }
                     hashtagsView.setText(clipboard);
                 }else{
@@ -228,6 +267,9 @@ public class MainFragment extends Fragment {
 
     @Override
     public void onDetach() {
+        if (adView != null) {
+            adView.destroy();
+        }
         super.onDetach();
         mListener = null;
     }
