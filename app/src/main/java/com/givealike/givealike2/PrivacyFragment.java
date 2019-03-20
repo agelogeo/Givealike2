@@ -58,7 +58,7 @@ public class PrivacyFragment extends Fragment {
         WebView webView = v.findViewById(R.id.privacyWebView);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("http://www.agelogeo.com/apps/privacy.html");
+        webView.loadUrl("http://www.agelogeo.com/apps/Givealike/privacy.html");
 
         return v;
     }

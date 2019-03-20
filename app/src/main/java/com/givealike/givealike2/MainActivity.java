@@ -144,16 +144,12 @@ public class MainActivity extends AppCompatActivity
 
         }else if(id == R.id.nav_privacy){
             setFragment(new PrivacyFragment());
+        }else if(id == R.id.nav_terms){
+            setFragment(new TermsFragment());
         }else if(id == R.id.nav_about){
             AlertDialog alertDialog = new AlertDialog.Builder(this)
                     .setView(R.layout.about_dialog)
                     .setPositiveButton("OK",null)
-                    .setNeutralButton("Contact Us", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    })
                     .show();
 
             TextView text = alertDialog.findViewById(R.id.version);
