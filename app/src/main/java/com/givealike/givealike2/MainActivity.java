@@ -79,13 +79,9 @@ public class MainActivity extends AppCompatActivity
         name.setText(getIntent().getStringExtra("name"));
         email.setText(getIntent().getStringExtra("email"));
 
-        Log.i("name",getIntent().getStringExtra("name"));
-        Log.i("email",getIntent().getStringExtra("email"));
         try {
-            Log.i("profile",getIntent().getStringExtra("profile_pic"));
-            Picasso.get().load(getIntent().getStringExtra("profile_pic")).into(profile_pic);
-            /*new DownloadImageTask((ImageView) navigationView.getHeaderView(0).findViewById(R.id.nav_profile_url))
-                    .execute(getIntent().getStringExtra("profile_pic"));*/
+            if(!getIntent().getStringExtra("profile_pic").equals(""))
+                Picasso.get().load(getIntent().getStringExtra("profile_pic")).into(profile_pic);
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -23,6 +23,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -52,7 +54,7 @@ public class MainFragment extends Fragment {
     FloatingActionButton fab;
     ConstraintLayout imageConstraint;
     Button getHashtagsBtn,categoryButton;
-    TextView hashtagsView,customUsername,customLikeView;
+    TextView hashtagsView,customUsername,customLikeView, pasteTextView;
     ImageView customPhotoWallpaper,customProfile;
     String link = "https://www.instagram.com/p/BvAkJnoDwmF/";
     String tag = "",clipboard = "" , hashtags[];
@@ -110,6 +112,7 @@ public class MainFragment extends Fragment {
         customProfile = view.findViewById(R.id.custom_profilePicView);
         customUsername = view.findViewById(R.id.custom_usernameTextView);
         customLikeView = view.findViewById(R.id.customLikeView);
+        pasteTextView = view.findViewById(R.id.pasteTextView);
 
         initializeUI();
 
@@ -192,6 +195,7 @@ public class MainFragment extends Fragment {
         categoryButton.setVisibility(View.VISIBLE);
         getHashtagsBtn.setVisibility(View.VISIBLE);
         hashtagsView.setVisibility(View.GONE);
+        pasteTextView.setVisibility(View.GONE);
         categoryButton.setText("Choose Category");
         getHashtagsBtn.setEnabled(false);
     }
@@ -201,6 +205,8 @@ public class MainFragment extends Fragment {
         categoryButton.setVisibility(View.GONE);
         getHashtagsBtn.setVisibility(View.GONE);
         hashtagsView.setVisibility(View.GONE);
+        pasteTextView.setVisibility(View.VISIBLE);
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -310,8 +316,10 @@ public class MainFragment extends Fragment {
                         link = node.getJSONArray("display_resources").getJSONObject(2).getString("src");
                         Log.i("CHILDREN_W_PHOTO_"+(i+1),node.getJSONArray("display_resources").getJSONObject(2).getString("src"));
                     }
-                    ImageDownloader imageTask = new ImageDownloader();
-                    imageTask.execute(link);
+                    Picasso.get().load(link).into(customPhotoWallpaper);
+
+                    /*ImageDownloader imageTask = new ImageDownloader();
+                    imageTask.execute(link);*/
                 }
             }else{
                 if(first_graphql_shortcode_media.has("video_url")){
@@ -321,9 +329,12 @@ public class MainFragment extends Fragment {
                     Log.i("NO_CHILDREN_W_PHOTO",first_graphql_shortcode_media.getJSONArray("display_resources").getJSONObject(2).getString("src"));
                     link = first_graphql_shortcode_media.getJSONArray("display_resources").getJSONObject(2).getString("src");
                 }
-                ImageDownloader imageTask = new ImageDownloader();
-                imageTask.execute(link);
+                Picasso.get().load(link).into(customPhotoWallpaper);
+
+                /*ImageDownloader imageTask = new ImageDownloader();
+                imageTask.execute(link);*/
             }
+            updateViewAfterPaste();
 
         }catch (Exception e){
             Toast.makeText(getContext(),"Error with your link.",Toast.LENGTH_SHORT).show();
