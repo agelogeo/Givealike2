@@ -17,7 +17,7 @@
         android:clickable="true"
         android:focusable="true"
         android:src="@drawable/baseline_get_app_black_48dp"
-        app:layout_constraintBottom_toTopOf="@+id/banner_container"
+        app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintEnd_toEndOf="parent"
         app:maxImageSize="35dp" />
 
@@ -149,10 +149,11 @@
     <TextView
         android:id="@+id/hashtagsTextView"
         android:layout_width="0dp"
-        android:layout_height="280dp"
+        android:layout_height="248dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:padding="5dp"
         android:text="@string/photography_photo_photos_pic_pics_picture_pictures_snapshot_art_beautiful_instagood_picoftheday_photooftheday_color_all_shots_exposure_composition_focus_capture_moment"
         android:textAlignment="center"
@@ -160,6 +161,7 @@
         android:textSize="18sp"
         android:textStyle="bold|italic"
         android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/pasteButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/getHashtagsButton" />
@@ -175,17 +177,19 @@
         android:textColor="@color/colorAccent"
         android:textSize="18sp"
         android:textStyle="bold|italic"
-        app:layout_constraintBottom_toTopOf="@+id/banner_container"
+        app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintEnd_toStartOf="@+id/pasteButton"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/banner_container"
-        android:layout_width="match_parent"
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_centerHorizontal="true"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent"
+        ads:layout_constraintStart_toStartOf="parent"></com.google.android.gms.ads.AdView>
 </android.support.constraint.ConstraintLayout>

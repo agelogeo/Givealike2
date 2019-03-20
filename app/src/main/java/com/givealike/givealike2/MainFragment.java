@@ -1,6 +1,5 @@
 package com.givealike.givealike2;
 
-import android.app.Activity;
 import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -12,7 +11,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -22,10 +20,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.facebook.ads.*;
+import com.google.android.gms.ads.AdView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -38,6 +35,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 
 /**
@@ -49,9 +48,7 @@ import java.util.regex.Pattern;
  * create an instance of this fragment.
  */
 public class MainFragment extends Fragment {
-
-    private AdView adView;
-    private InterstitialAd interstitialAd;
+    private AdView mAdView;
     FloatingActionButton fab;
     ConstraintLayout imageConstraint;
     Button getHashtagsBtn,categoryButton;
@@ -96,19 +93,13 @@ public class MainFragment extends Fragment {
         customLikeView = view.findViewById(R.id.customLikeView);
         pasteTextView = view.findViewById(R.id.pasteTextView);
 
-        adView = new AdView(getContext(), "387303098519331_387304648519176", AdSize.BANNER_HEIGHT_50);
-        interstitialAd = new InterstitialAd(getContext(), "387303098519331_387317678517873");
+
+        mAdView = view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
 
 
-        // Find the Ad Container
-        LinearLayout adContainer = (LinearLayout) view.findViewById(R.id.banner_container);
-
-        // Add the ad view to your activity layout
-        adContainer.addView(adView);
-        AdSettings.addTestDevice("bef8d509-3e70-4f18-acf5-9fdf16ccb631");
-        // Request an ad
-        adView.loadAd();
 
 
         initializeUI();
@@ -131,9 +122,15 @@ public class MainFragment extends Fragment {
         getHashtagsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*if(rewardedVideoAd.isAdLoaded())
+                    rewardedVideoAd.show();
+                else
+                    rewardedVideoAd.loadAd();
+*//*
                 if(interstitialAd.isAdLoaded())
                     interstitialAd.show();
-
+                else
+                    interstitialAd.loadAd();*/
             }
         });
 
@@ -151,7 +148,7 @@ public class MainFragment extends Fragment {
             }
         });
 
-        interstitialAd.setAdListener(new InterstitialAdListener() {
+        /*interstitialAd.setAdListener(new InterstitialAdListener() {
             @Override
             public void onInterstitialDisplayed(Ad ad) {
 
@@ -204,7 +201,8 @@ public class MainFragment extends Fragment {
             public void onLoggingImpression(Ad ad) {
 
             }
-        });
+        });*/
+
 
         return view;
     }
@@ -226,7 +224,7 @@ public class MainFragment extends Fragment {
 
         if(requestCode == 1 && resultCode == getActivity().RESULT_OK){
             Toast.makeText(getContext(),data.getStringExtra("Category"),Toast.LENGTH_SHORT).show();
-            interstitialAd.loadAd();
+            //interstitialAd.loadAd();
             categoryButton.setText(data.getStringExtra("Category"));
             tag = data.getStringExtra("Category");
         }
@@ -262,9 +260,6 @@ public class MainFragment extends Fragment {
 
     @Override
     public void onDetach() {
-        if (adView != null) {
-            adView.destroy();
-        }
         super.onDetach();
         mListener = null;
     }

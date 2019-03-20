@@ -12,6 +12,9 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-4781041300358039~7073868915"/>
         <activity android:name=".LoginActivity">
 
             <intent-filter>
