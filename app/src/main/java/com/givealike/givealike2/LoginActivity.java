@@ -97,6 +97,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Log.i("account",account.toJson());
         intent.putExtra("name",account.getDisplayName());
         intent.putExtra("email",account.getEmail());
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         if(account.getPhotoUrl() != null)
             intent.putExtra("profile_pic",account.getPhotoUrl().toString());
         else
