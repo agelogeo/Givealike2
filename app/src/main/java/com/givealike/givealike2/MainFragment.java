@@ -20,9 +20,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.facebook.ads.*;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -50,7 +51,7 @@ public class MainFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private AdView adView;
     FloatingActionButton fab;
     ConstraintLayout imageConstraint;
     Button getHashtagsBtn,categoryButton;
@@ -110,6 +111,17 @@ public class MainFragment extends Fragment {
         customUsername = view.findViewById(R.id.custom_usernameTextView);
         customLikeView = view.findViewById(R.id.customLikeView);
         pasteTextView = view.findViewById(R.id.pasteTextView);
+
+        adView = new AdView(getContext(), "387303098519331_387304648519176", AdSize.BANNER_HEIGHT_50);
+
+        // Find the Ad Container
+        LinearLayout adContainer = (LinearLayout) view.findViewById(R.id.banner_container);
+
+        // Add the ad view to your activity layout
+        adContainer.addView(adView);
+
+        // Request an ad
+        adView.loadAd();
 
         initializeUI();
 
