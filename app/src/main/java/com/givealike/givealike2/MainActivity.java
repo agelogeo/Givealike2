@@ -28,6 +28,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
 
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity
 
         TextView name = navigationView.getHeaderView(0).findViewById(R.id.nav_display_name);
         TextView email = navigationView.getHeaderView(0).findViewById(R.id.nav_email);
+        ImageView profile_pic = navigationView.getHeaderView(0).findViewById(R.id.nav_profile_url);
 
         name.setText(getIntent().getStringExtra("name"));
         email.setText(getIntent().getStringExtra("email"));
@@ -80,8 +82,10 @@ public class MainActivity extends AppCompatActivity
         Log.i("name",getIntent().getStringExtra("name"));
         Log.i("email",getIntent().getStringExtra("email"));
         try {
-            new DownloadImageTask((ImageView) navigationView.getHeaderView(0).findViewById(R.id.nav_profile_url))
-                    .execute(getIntent().getStringExtra("profile_pic"));
+            Log.i("profile",getIntent().getStringExtra("profile_pic"));
+            Picasso.get().load(getIntent().getStringExtra("profile_pic")).into(profile_pic);
+            /*new DownloadImageTask((ImageView) navigationView.getHeaderView(0).findViewById(R.id.nav_profile_url))
+                    .execute(getIntent().getStringExtra("profile_pic"));*/
         }catch (Exception e){
             e.printStackTrace();
         }
