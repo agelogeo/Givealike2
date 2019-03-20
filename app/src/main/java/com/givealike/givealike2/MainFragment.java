@@ -49,10 +49,7 @@ import java.util.regex.Pattern;
  * create an instance of this fragment.
  */
 public class MainFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+
     private AdView adView;
     private InterstitialAd interstitialAd;
     FloatingActionButton fab;
@@ -60,8 +57,9 @@ public class MainFragment extends Fragment {
     Button getHashtagsBtn,categoryButton;
     TextView hashtagsView,customUsername,customLikeView, pasteTextView;
     ImageView customPhotoWallpaper,customProfile;
-    String link = "https://www.instagram.com/p/BvAkJnoDwmF/";
+    String link = "";
     String tag = "",clipboard = "" , hashtags[];
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -69,33 +67,16 @@ public class MainFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MainFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static MainFragment newInstance(String param1, String param2) {
         MainFragment fragment = new MainFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            // TODO: Rename and change types of parameters
-            String mParam1 = getArguments().getString(ARG_PARAM1);
-            String mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
 
     }
 
@@ -117,37 +98,7 @@ public class MainFragment extends Fragment {
 
         adView = new AdView(getContext(), "387303098519331_387304648519176", AdSize.BANNER_HEIGHT_50);
         interstitialAd = new InterstitialAd(getContext(), "387303098519331_387317678517873");
-        interstitialAd.setAdListener(new InterstitialAdListener() {
-            @Override
-            public void onInterstitialDisplayed(Ad ad) {
 
-            }
-
-            @Override
-            public void onInterstitialDismissed(Ad ad) {
-                interstitialAd.loadAd();
-            }
-
-            @Override
-            public void onError(Ad ad, AdError adError) {
-
-            }
-
-            @Override
-            public void onAdLoaded(Ad ad) {
-
-            }
-
-            @Override
-            public void onAdClicked(Ad ad) {
-
-            }
-
-            @Override
-            public void onLoggingImpression(Ad ad) {
-
-            }
-        });
 
 
         // Find the Ad Container
@@ -158,7 +109,7 @@ public class MainFragment extends Fragment {
         AdSettings.addTestDevice("bef8d509-3e70-4f18-acf5-9fdf16ccb631");
         // Request an ad
         adView.loadAd();
-        interstitialAd.loadAd();
+
 
         initializeUI();
 
@@ -182,6 +133,28 @@ public class MainFragment extends Fragment {
             public void onClick(View v) {
                 if(interstitialAd.isAdLoaded())
                     interstitialAd.show();
+
+            }
+        });
+
+        categoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OpenCategory();
+            }
+        });
+
+        interstitialAd.setAdListener(new InterstitialAdListener() {
+            @Override
+            public void onInterstitialDisplayed(Ad ad) {
+
+            }
+
+            @Override
+            public void onInterstitialDismissed(Ad ad) {
+                getHashtagsBtn.setEnabled(false);
+                getHashtagsBtn.setText("Please wait...");
+                interstitialAd.loadAd();
                 hashtagsView.setVisibility(View.VISIBLE);
                 Cursor c = myDatabase.rawQuery("SELECT * FROM hashtags WHERE category='"+tag+"'",null);
                 if(c.getCount()>0){
@@ -202,12 +175,26 @@ public class MainFragment extends Fragment {
                 }
                 c.close();
             }
-        });
 
-        categoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                OpenCategory();
+            public void onError(Ad ad, AdError adError) {
+
+            }
+
+            @Override
+            public void onAdLoaded(Ad ad) {
+                getHashtagsBtn.setText("Get Hashtags");
+                getHashtagsBtn.setEnabled(true);
+            }
+
+            @Override
+            public void onAdClicked(Ad ad) {
+
+            }
+
+            @Override
+            public void onLoggingImpression(Ad ad) {
+
             }
         });
 
@@ -231,7 +218,7 @@ public class MainFragment extends Fragment {
 
         if(requestCode == 1 && resultCode == getActivity().RESULT_OK){
             Toast.makeText(getContext(),data.getStringExtra("Category"),Toast.LENGTH_SHORT).show();
-            getHashtagsBtn.setEnabled(true);
+            interstitialAd.loadAd();
             categoryButton.setText(data.getStringExtra("Category"));
             tag = data.getStringExtra("Category");
         }
