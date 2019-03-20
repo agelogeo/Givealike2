@@ -142,6 +142,8 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this,LoginActivity.class);
             startActivity(intent);
 
+        }else if(id == R.id.nav_privacy){
+            setFragment(new PrivacyFragment());
         }else if(id == R.id.nav_about){
             AlertDialog alertDialog = new AlertDialog.Builder(this)
                     .setView(R.layout.about_dialog)
