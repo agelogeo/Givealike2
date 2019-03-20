@@ -22,7 +22,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -36,19 +43,13 @@ import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MainFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MainFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class MainFragment extends Fragment {
+
+public class MainFragment extends Fragment implements RewardedVideoAdListener{
     private AdView mAdView;
+    private InterstitialAd mInterstitialAd;
+    private RewardedVideoAd mRewardedVideoAd;
     FloatingActionButton fab;
     ConstraintLayout imageConstraint;
     Button getHashtagsBtn,categoryButton;
@@ -93,10 +94,16 @@ public class MainFragment extends Fragment {
         customLikeView = view.findViewById(R.id.customLikeView);
         pasteTextView = view.findViewById(R.id.pasteTextView);
 
+        mInterstitialAd = new InterstitialAd(getContext());
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         mAdView = view.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("87DB79B25DEDF82128E308BAB391844A").build();
         mAdView.loadAd(adRequest);
+
+        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(getContext());
+        mRewardedVideoAd.setRewardedVideoAdListener(this);
 
 
 
@@ -122,15 +129,15 @@ public class MainFragment extends Fragment {
         getHashtagsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*if(rewardedVideoAd.isAdLoaded())
-                    rewardedVideoAd.show();
-                else
-                    rewardedVideoAd.loadAd();
-*//*
-                if(interstitialAd.isAdLoaded())
-                    interstitialAd.show();
-                else
-                    interstitialAd.loadAd();*/
+                if (mRewardedVideoAd.isLoaded()) {
+                    mRewardedVideoAd.show();
+                }else{
+                    loadRewardedVideoAd();
+                    if (mInterstitialAd.isLoaded())
+                        mInterstitialAd.show();
+                    else
+                        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                }
             }
         });
 
@@ -148,17 +155,33 @@ public class MainFragment extends Fragment {
             }
         });
 
-        /*interstitialAd.setAdListener(new InterstitialAdListener() {
+        mInterstitialAd.setAdListener(new AdListener() {
             @Override
-            public void onInterstitialDisplayed(Ad ad) {
-
+            public void onAdLoaded() {
+                getHashtagsBtn.setText("Get Hashtags");
+                getHashtagsBtn.setEnabled(true);
             }
 
             @Override
-            public void onInterstitialDismissed(Ad ad) {
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when the ad is displayed.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
                 getHashtagsBtn.setEnabled(false);
                 getHashtagsBtn.setText("Please wait...");
-                interstitialAd.loadAd();
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
                 hashtagsView.setVisibility(View.VISIBLE);
                 Cursor c = myDatabase.rawQuery("SELECT * FROM hashtags WHERE category='"+tag+"'",null);
                 if(c.getCount()>0){
@@ -174,35 +197,12 @@ public class MainFragment extends Fragment {
                         clipboard+= "#"+hashtags[i]+" ";
                     }
                     hashtagsView.setText(clipboard);
-                    setClipboard(getContext(),hashtagsView.getText().toString());
                 }else{
                     Log.i("DATABASE","No Result...");
                 }
                 c.close();
             }
-
-            @Override
-            public void onError(Ad ad, AdError adError) {
-
-            }
-
-            @Override
-            public void onAdLoaded(Ad ad) {
-                getHashtagsBtn.setText("Get Hashtags");
-                getHashtagsBtn.setEnabled(true);
-            }
-
-            @Override
-            public void onAdClicked(Ad ad) {
-
-            }
-
-            @Override
-            public void onLoggingImpression(Ad ad) {
-
-            }
-        });*/
-
+        });
 
         return view;
     }
@@ -224,7 +224,8 @@ public class MainFragment extends Fragment {
 
         if(requestCode == 1 && resultCode == getActivity().RESULT_OK){
             Toast.makeText(getContext(),data.getStringExtra("Category"),Toast.LENGTH_SHORT).show();
-            //interstitialAd.loadAd();
+            loadRewardedVideoAd();
+            getHashtagsBtn.setText("Please wait...");
             categoryButton.setText(data.getStringExtra("Category"));
             tag = data.getStringExtra("Category");
         }
@@ -262,6 +263,49 @@ public class MainFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onRewardedVideoAdLoaded() {
+        getHashtagsBtn.setText("Get Hashtags");
+        getHashtagsBtn.setEnabled(true);
+    }
+
+    @Override
+    public void onRewardedVideoAdOpened() {
+
+    }
+
+    @Override
+    public void onRewardedVideoStarted() {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdClosed() {
+        loadRewardedVideoAd();
+        if(mInterstitialAd.isLoaded())
+            mInterstitialAd.show();
+    }
+
+    @Override
+    public void onRewarded(RewardItem rewardItem) {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdLeftApplication() {
+
+    }
+
+    @Override
+    public void onRewardedVideoAdFailedToLoad(int i) {
+
+    }
+
+    @Override
+    public void onRewardedVideoCompleted() {
+
     }
 
     /**
@@ -450,6 +494,11 @@ public class MainFragment extends Fragment {
         }
         Toast.makeText(getContext(),"Hashtags copied to Clipboard.",Toast.LENGTH_SHORT).show();
 
+    }
+
+    private void loadRewardedVideoAd() {
+        mRewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
+                new AdRequest.Builder().build());
     }
 
 }
