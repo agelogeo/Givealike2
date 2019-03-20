@@ -13,14 +13,9 @@
             android:icon="@drawable/baseline_help_black_48dp"
             android:title="Guidelines" />
         <item
-            android:id="@+id/nav_log_in"
-            android:icon="@drawable/baseline_person_black_48dp"
-            android:title="Sign in" />
-        <item
             android:id="@+id/nav_log_out"
             android:icon="@drawable/baseline_keyboard_return_black_48dp"
-            android:title="Log out"
-            android:visible="false"/>
+            android:title="Log out"/>
     </group>
 
     <item android:title="More">

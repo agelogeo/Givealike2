@@ -4,6 +4,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -17,15 +20,22 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.analytics.FirebaseAnalytics;
+
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private FirebaseAnalytics mFirebaseAnalytics;
     SQLiteDatabase myDatabase;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +71,22 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        setFragment(new SignInFragment());
+        TextView name = navigationView.getHeaderView(0).findViewById(R.id.nav_display_name);
+        TextView email = navigationView.getHeaderView(0).findViewById(R.id.nav_email);
+
+        name.setText(getIntent().getStringExtra("name"));
+        email.setText(getIntent().getStringExtra("email"));
+
+        Log.i("name",getIntent().getStringExtra("name"));
+        Log.i("email",getIntent().getStringExtra("email"));
+        try {
+            new DownloadImageTask((ImageView) navigationView.getHeaderView(0).findViewById(R.id.nav_profile_url))
+                    .execute(getIntent().getStringExtra("profile_pic"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        setFragment(new MainFragment());
     }
 
     @Override
@@ -110,8 +135,19 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             setFragment(new MainFragment());
-        }else if(id == R.id.nav_log_in){
-            setFragment(new SignInFragment());
+        }else if ( id == R.id.nav_log_out){
+            // Configure sign-in to request the user's ID, email address, and basic
+            // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .requestProfile()
+                    .build();
+
+            GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+            mGoogleSignInClient.signOut();
+            Intent intent = new Intent(this,LoginActivity.class);
+            startActivity(intent);
+
         }else if(id == R.id.nav_about){
             AlertDialog alertDialog = new AlertDialog.Builder(this)
                     .setView(R.layout.about_dialog)
@@ -218,5 +254,31 @@ public class MainActivity extends AppCompatActivity
                 "('Urban','Street Art','#streetart #street #streetphotography #sprayart #urban #urbanart #urbanwalls #wall #wallporn #graffitiigers #stencilart #art #graffiti #instagraffiti #instagood #artwork #mural #graffitiporn #photooftheday #stencil #streetartistry #photography #stickerart #pasteup #instagraff #instagrafite #streetarteverywhere')" );
 
 
+    }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+
+        }
     }
 }
