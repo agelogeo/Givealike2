@@ -144,6 +144,13 @@ public class MainFragment extends Fragment {
             }
         });
 
+        hashtagsView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setClipboard(getContext(),hashtagsView.getText().toString());
+            }
+        });
+
         interstitialAd.setAdListener(new InterstitialAdListener() {
             @Override
             public void onInterstitialDisplayed(Ad ad) {
@@ -170,6 +177,7 @@ public class MainFragment extends Fragment {
                         clipboard+= "#"+hashtags[i]+" ";
                     }
                     hashtagsView.setText(clipboard);
+                    setClipboard(getContext(),hashtagsView.getText().toString());
                 }else{
                     Log.i("DATABASE","No Result...");
                 }
@@ -434,6 +442,19 @@ public class MainFragment extends Fragment {
             //imageGrid.setAdapter(new ImageAdapter(getActivity().getApplicationContext(), bitmapList));
 
         }
+    }
+
+    private void setClipboard(Context context, String text) {
+        if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
+            android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            clipboard.setText(text);
+        } else {
+            android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
+            clipboard.setPrimaryClip(clip);
+        }
+        Toast.makeText(getContext(),"Hashtags copied to Clipboard.",Toast.LENGTH_SHORT).show();
+
     }
 
 }
