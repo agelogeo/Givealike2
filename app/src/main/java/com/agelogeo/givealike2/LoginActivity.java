@@ -18,6 +18,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final int RC_SIGN_IN = 1;
     GoogleSignInClient mGoogleSignInClient;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +95,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void logInMainFragment(GoogleSignInAccount account){
 
         Intent intent = new Intent(this,MainActivity.class);
-        Log.i("account",account.toJson());
+        Log.i("account",account.toString());
         intent.putExtra("name",account.getDisplayName());
         intent.putExtra("email",account.getEmail());
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
