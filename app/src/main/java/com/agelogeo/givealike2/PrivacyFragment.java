@@ -1,33 +1,30 @@
-package com.givealike.givealike2;
+package com.agelogeo.givealike2;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SignInFragment.OnFragmentInteractionListener} interface
+ * {@link PrivacyFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SignInFragment#newInstance} factory method to
+ * Use the {@link PrivacyFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SignInFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class PrivacyFragment extends Fragment {
+
 
     private OnFragmentInteractionListener mListener;
 
-    public SignInFragment() {
+    public PrivacyFragment() {
         // Required empty public constructor
     }
 
@@ -37,27 +34,18 @@ public class SignInFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SignInFragment.
+     * @return A new instance of fragment PrivacyFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SignInFragment newInstance(String param1, String param2) {
-        SignInFragment fragment = new SignInFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+    public static PrivacyFragment newInstance(String param1, String param2) {
+        PrivacyFragment fragment = new PrivacyFragment();
+
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            // TODO: Rename and change types of parameters
-            String mParam1 = getArguments().getString(ARG_PARAM1);
-            String mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
 
     }
 
@@ -65,29 +53,27 @@ public class SignInFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_sign_in, container, false);
+        View v =inflater.inflate(R.layout.fragment_privacy, container, false);
 
-        Button logInButton = v.findViewById(R.id.logInButton);
-
-        logInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.mainConstraint,new MainFragment());
-                transaction.commit();
-            }
-        });
+        WebView webView = v.findViewById(R.id.privacyWebView);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.setWebViewClient(new WebViewClient());
+        webView.loadUrl("http://www.agelogeo.com/apps/Givealike/privacy.html");
 
         return v;
     }
-
-
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
     }
 
     @Override

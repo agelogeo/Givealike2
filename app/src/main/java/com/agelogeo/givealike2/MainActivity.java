@@ -1,6 +1,5 @@
-package com.givealike.givealike2;
+package com.agelogeo.givealike2;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;

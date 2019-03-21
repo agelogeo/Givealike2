@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.givealike.givealike2">
+    package="com.agelogeo.givealike2">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -15,7 +15,7 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-4781041300358039~7073868915"/>
-        <activity android:name=".LoginActivity">
+        <activity android:name="com.agelogeo.givealike2.LoginActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,9 +23,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CategoryActivity" />
+        <activity android:name="com.agelogeo.givealike2.CategoryActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.agelogeo.givealike2.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">

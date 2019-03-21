@@ -1,4 +1,4 @@
-package com.givealike.givealike2;
+package com.agelogeo.givealike2;
 
 import org.junit.Test;
 
