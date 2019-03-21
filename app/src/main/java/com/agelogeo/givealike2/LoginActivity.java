@@ -15,7 +15,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final int RC_SIGN_IN = 2;
+    private static final int RC_SIGN_IN = 1;
     GoogleSignInClient mGoogleSignInClient;
 
     @Override
@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestProfile()
-                //.requestIdToken("856141979893-u3bn8oscnn7iokvhokc439vvjdt9cqe0.apps.googleusercontent.com")
+                .requestIdToken("830291595603-184l25eg849o2onm1vhajm789814mj16.apps.googleusercontent.com")
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
