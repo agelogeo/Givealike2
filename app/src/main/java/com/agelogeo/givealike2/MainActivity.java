@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -18,8 +19,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,10 +36,16 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     SQLiteDatabase myDatabase;
     SharedPreferences sharedPreferences;
+    String emailText = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +69,9 @@ public class MainActivity extends AppCompatActivity
         TextView name = navigationView.getHeaderView(0).findViewById(R.id.nav_display_name);
         TextView email = navigationView.getHeaderView(0).findViewById(R.id.nav_email);
         ImageView profile_pic = navigationView.getHeaderView(0).findViewById(R.id.nav_profile_url);
-
         name.setText(getIntent().getStringExtra("name"));
-        email.setText(getIntent().getStringExtra("email"));
+        email.setText(emailText=getIntent().getStringExtra("email"));
+
 
         try {
             String pic_link = getIntent().getStringExtra("profile_pic");
@@ -186,18 +196,32 @@ public class MainActivity extends AppCompatActivity
             TextView text = alertDialog.findViewById(R.id.version);
             text.setText(getString(R.string.v)+BuildConfig.VERSION_NAME);
         }else if(id == R.id.nav_contact){
-            AlertDialog alertDialog = new AlertDialog.Builder(this)
-                    .setView(R.layout.about_dialog)
-                    .setPositiveButton("OK",null)
-                    .show();
-
-            TextView text = alertDialog.findViewById(R.id.version);
-            text.setText(getString(R.string.v)+BuildConfig.VERSION_NAME);
+            LayoutInflater layoutinflater = LayoutInflater.from(this);
+            View promptUserView = layoutinflater.inflate(R.layout.contact_dialog, null);
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            final EditText userAnswer = (EditText) promptUserView.findViewById(R.id.contactInput);
+            alertDialogBuilder.setView(promptUserView);
+            alertDialogBuilder.setTitle("Leave us a feedback");
+            alertDialogBuilder.setIcon(R.drawable.baseline_help_black_48dp);
+            alertDialogBuilder.setMessage("Please let us know, if you encounter any issues or suggest us some ideas.");
+            alertDialogBuilder.setNegativeButton("Cancel",null);
+            alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    sendFeedback(userAnswer.getText().toString());
+                }
+            });
+            // all set and time to build and show up!
+            alertDialogBuilder.create().show();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void sendFeedback(String message){
+        new ContactTask().execute(getString(R.string.backend)+"email="+emailText+"&text="+message+"&contact=true");
     }
 
     public void setFragment(Fragment fragment,boolean withAnimation) {
@@ -286,5 +310,34 @@ public class MainActivity extends AppCompatActivity
                 "('Urban','Street Art','#streetart #street #streetphotography #sprayart #urban #urbanart #urbanwalls #wall #wallporn #graffitiigers #stencilart #art #graffiti #instagraffiti #instagood #artwork #mural #graffitiporn #photooftheday #stencil #streetartistry #photography #stickerart #pasteup #instagraff #instagrafite #streetarteverywhere')" );
 
 
+    }
+
+    public class ContactTask extends AsyncTask<String,Void ,String> {
+
+        @Override
+        protected String doInBackground(String... urls) {
+            String result = "",line;
+            URL url;
+            HttpURLConnection urlConnection;
+
+            try{
+                url = new URL(urls[0]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+                while ((line = reader.readLine()) != null)
+                    result += line;
+
+                return result;
+            }catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            Toast.makeText(getApplicationContext(),"Message sent!",Toast.LENGTH_SHORT).show();
+        }
     }
 }
