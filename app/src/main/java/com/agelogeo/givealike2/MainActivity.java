@@ -72,8 +72,13 @@ public class MainActivity extends AppCompatActivity
         }
 
         MobileAds.initialize(this, "ca-app-pub-4781041300358039~7073868915");
-        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        FirebaseAnalytics.getInstance(this);
 
+        setMyDatabase();
+        checkForSharedPreferences();
+    }
+
+    public void setMyDatabase(){
         myDatabase = this.openOrCreateDatabase("Hashtags",MODE_PRIVATE,null);
         myDatabase.execSQL("CREATE TABLE IF NOT EXISTS hashtags (category VARCHAR, subcategory VARCHAR , name VARCHAR)");
         Cursor c = myDatabase.rawQuery("SELECT * FROM hashtags WHERE category='Animals'",null);
@@ -82,13 +87,15 @@ public class MainActivity extends AppCompatActivity
             initiateDatabase();
         }
         c.close();
+    }
 
+    public void checkForSharedPreferences(){
         sharedPreferences = this.getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
 
         if(!sharedPreferences.getBoolean("isFirstRun",true)){
             setFragment(new MainFragment(),false);
             if(!sharedPreferences.getBoolean("hasLeftReview",false)){
-                if(Math.floor(Math.random() * Math.floor(100)) < 50){
+                if(Math.floor(Math.random() * Math.floor(100)) < 30){
                     new AlertDialog.Builder(this)
                             .setTitle("Do you like Givealike 2?")
                             .setMessage("Please leave a review and help us improve our app.")
@@ -117,8 +124,6 @@ public class MainActivity extends AppCompatActivity
             sharedPreferences.edit().putBoolean("isFirstRun",false).apply();
             setFragment(new GuidelineFragment(),false);
         }
-
-
     }
 
     @Override
@@ -173,6 +178,14 @@ public class MainActivity extends AppCompatActivity
         }else if(id == R.id.nav_terms){
             setFragment(new TermsFragment(),true);
         }else if(id == R.id.nav_about){
+            AlertDialog alertDialog = new AlertDialog.Builder(this)
+                    .setView(R.layout.about_dialog)
+                    .setPositiveButton("OK",null)
+                    .show();
+
+            TextView text = alertDialog.findViewById(R.id.version);
+            text.setText(getString(R.string.v)+BuildConfig.VERSION_NAME);
+        }else if(id == R.id.nav_contact){
             AlertDialog alertDialog = new AlertDialog.Builder(this)
                     .setView(R.layout.about_dialog)
                     .setPositiveButton("OK",null)

@@ -58,7 +58,7 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
     String link = "";
     String tag = "",clipboard = "" , hashtags[];
     boolean isCategorySelected = false;
-
+    SQLiteDatabase myDatabase;
 
     private OnFragmentInteractionListener mListener;
 
@@ -75,6 +75,13 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        myDatabase = getActivity().openOrCreateDatabase("Hashtags",getActivity().MODE_PRIVATE,null);
+        mInterstitialAd = new InterstitialAd(getContext());
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(getContext());
+        mRewardedVideoAd.setRewardedVideoAdListener(this);
         super.onCreate(savedInstanceState);
 
     }
@@ -95,24 +102,12 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
         customLikeView = view.findViewById(R.id.customLikeView);
         pasteTextView = view.findViewById(R.id.pasteTextView);
 
-        mInterstitialAd = new InterstitialAd(getContext());
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
-
         mAdView = view.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("87DB79B25DEDF82128E308BAB391844A").build();
         mAdView.loadAd(adRequest);
 
-        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(getContext());
-        mRewardedVideoAd.setRewardedVideoAdListener(this);
-
-
-
-
-
         initializeUI();
 
-        final SQLiteDatabase myDatabase = getActivity().openOrCreateDatabase("Hashtags",getActivity().MODE_PRIVATE,null);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
