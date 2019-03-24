@@ -1,8 +1,12 @@
 package com.agelogeo.givealike2;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -31,7 +35,7 @@ import com.squareup.picasso.Picasso;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     SQLiteDatabase myDatabase;
-
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +55,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        setFragment(new MainFragment(),false);
 
         TextView name = navigationView.getHeaderView(0).findViewById(R.id.nav_display_name);
         TextView email = navigationView.getHeaderView(0).findViewById(R.id.nav_email);
@@ -74,12 +76,49 @@ public class MainActivity extends AppCompatActivity
 
         myDatabase = this.openOrCreateDatabase("Hashtags",MODE_PRIVATE,null);
         myDatabase.execSQL("CREATE TABLE IF NOT EXISTS hashtags (category VARCHAR, subcategory VARCHAR , name VARCHAR)");
-        Cursor c = myDatabase.rawQuery("SELECT * FROM hashtags",null);
+        Cursor c = myDatabase.rawQuery("SELECT * FROM hashtags WHERE category='Animals'",null);
         if(c.getCount()==0){
             Log.i("DATABASE","Initialize database..");
             initiateDatabase();
         }
         c.close();
+
+        sharedPreferences = this.getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+
+        if(!sharedPreferences.getBoolean("isFirstRun",true)){
+            setFragment(new MainFragment(),false);
+            if(!sharedPreferences.getBoolean("hasLeftReview",false)){
+                if(Math.floor(Math.random() * Math.floor(100)) < 50){
+                    new AlertDialog.Builder(this)
+                            .setTitle("Do you like Givealike 2?")
+                            .setMessage("Please leave a review and help us improve our app.")
+                            .setPositiveButton("Take me there!", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    sharedPreferences.edit().putBoolean("hasLeftReview",true).apply();
+                                    final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                                    try {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                                    } catch (android.content.ActivityNotFoundException anfe) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                                    }
+                                }
+                            })
+                            .setNegativeButton("Maybe Later", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    sharedPreferences.edit().putBoolean("hasLeftReview",false).apply();
+                                }
+                            })
+                            .show();
+                }
+            }
+        }else{
+            sharedPreferences.edit().putBoolean("isFirstRun",false).apply();
+            setFragment(new GuidelineFragment(),false);
+        }
+
+
     }
 
     @Override
@@ -123,6 +162,8 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             setFragment(new MainFragment(),true);
+        }else if(id == R.id.nav_guideline){
+            setFragment(new GuidelineFragment(),true);
         }else if ( id == R.id.nav_log_out){
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(this,LoginActivity.class);
