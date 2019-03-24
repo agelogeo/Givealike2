@@ -30,9 +30,12 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -57,8 +60,10 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
     ImageView customPhotoWallpaper,customProfile;
     String link = "";
     String tag = "",clipboard = "" , hashtags[];
-    boolean isCategorySelected = false;
+    boolean isCategorySelected = false , isOkay = true;
     SQLiteDatabase myDatabase;
+    FirebaseUser firebaseUser;
+    FirebaseAuth mAuth;
 
     private OnFragmentInteractionListener mListener;
 
@@ -82,6 +87,9 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
 
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(getContext());
         mRewardedVideoAd.setRewardedVideoAdListener(this);
+
+        mAuth = FirebaseAuth.getInstance();
+        firebaseUser = mAuth.getCurrentUser();
         super.onCreate(savedInstanceState);
 
     }
@@ -113,6 +121,7 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
             @Override
             public void onClick(View v) {
                 link = readFromClipboard();
+                link = link.split("[?]")[0];
                 DownloadTask task = new DownloadTask();
                 try {
                     task.execute(link);
@@ -125,10 +134,11 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
         getHashtagsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mRewardedVideoAd.isLoaded()) {
+                if (mRewardedVideoAd.isLoaded() && isOkay) {
                     mRewardedVideoAd.show();
                 }else{
-                    loadRewardedVideoAd();
+                    if(isOkay)
+                        loadRewardedVideoAd();
                     if (mInterstitialAd.isLoaded())
                         mInterstitialAd.show();
                     else
@@ -248,6 +258,7 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
         getHashtagsBtn.setEnabled(false);
         loadRewardedVideoAd();
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        new OkayTask().execute(getString(R.string.backend)+"email="+firebaseUser.getEmail()+"&limit=true");
     }
 
     public void initializeUI(){
@@ -300,7 +311,7 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
 
     @Override
     public void onRewarded(RewardItem rewardItem) {
-
+        new HashtagsTask().execute(getString(R.string.backend)+"email="+firebaseUser.getEmail()+"&link="+link+"&hashtags=true");
     }
 
     @Override
@@ -470,6 +481,71 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
     private void loadRewardedVideoAd() {
         mRewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
                 new AdRequest.Builder().build());
+    }
+
+    public class HashtagsTask extends AsyncTask<String,Void ,String> {
+
+        @Override
+        protected String doInBackground(String... urls) {
+            String result = "",line;
+            URL url;
+            HttpURLConnection urlConnection;
+
+            try{
+                url = new URL(urls[0]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+                while ((line = reader.readLine()) != null)
+                    result += line;
+
+                return result;
+            }catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {            }
+    }
+
+    public class OkayTask extends AsyncTask<String,Void ,String> {
+
+        @Override
+        protected String doInBackground(String... urls) {
+            String result = "",line;
+            URL url;
+            HttpURLConnection urlConnection;
+
+            try{
+                url = new URL(urls[0]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+                while ((line = reader.readLine()) != null)
+                    result += line;
+
+                return result;
+            }catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                if(jsonObject.getBoolean("limitReached")){
+                    isOkay = false;
+                }else{
+                    isOkay = true;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }
