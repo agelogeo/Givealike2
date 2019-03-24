@@ -38,27 +38,10 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MobileAds.initialize(this, "ca-app-pub-4781041300358039~7073868915");
-
-        // Obtain the FirebaseAnalytics instance.
-        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-
         setTitle("");
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        myDatabase = this.openOrCreateDatabase("Hashtags",MODE_PRIVATE,null);
-        myDatabase.execSQL("CREATE TABLE IF NOT EXISTS hashtags (category VARCHAR, subcategory VARCHAR , name VARCHAR)");
-        Cursor c = myDatabase.rawQuery("SELECT * FROM hashtags",null);
-        if(c.getCount()>0){
-            Log.i("DATABASE",Integer.toString(c.getCount()));
-        }else{
-            Log.i("DATABASE","Initialize database..");
-            initiateDatabase();
-        }
-        c.close();
-
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -69,6 +52,8 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        setFragment(new MainFragment(),false);
+
         TextView name = navigationView.getHeaderView(0).findViewById(R.id.nav_display_name);
         TextView email = navigationView.getHeaderView(0).findViewById(R.id.nav_email);
         ImageView profile_pic = navigationView.getHeaderView(0).findViewById(R.id.nav_profile_url);
@@ -77,13 +62,24 @@ public class MainActivity extends AppCompatActivity
         email.setText(getIntent().getStringExtra("email"));
 
         try {
-            if(!getIntent().getStringExtra("profile_pic").equals(""))
-                Picasso.get().load(getIntent().getStringExtra("profile_pic")).into(profile_pic);
+            String pic_link = getIntent().getStringExtra("profile_pic");
+            if(!pic_link.equals(""))
+                Picasso.get().load(pic_link).into(profile_pic);
         }catch (Exception e){
             e.printStackTrace();
         }
 
-        setFragment(new MainFragment());
+        MobileAds.initialize(this, "ca-app-pub-4781041300358039~7073868915");
+        FirebaseAnalytics mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        myDatabase = this.openOrCreateDatabase("Hashtags",MODE_PRIVATE,null);
+        myDatabase.execSQL("CREATE TABLE IF NOT EXISTS hashtags (category VARCHAR, subcategory VARCHAR , name VARCHAR)");
+        Cursor c = myDatabase.rawQuery("SELECT * FROM hashtags",null);
+        if(c.getCount()==0){
+            Log.i("DATABASE","Initialize database..");
+            initiateDatabase();
+        }
+        c.close();
     }
 
     @Override
@@ -105,12 +101,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
         switch (item.getItemId()) {
-            case R.id.instagram:
+            case R.id.main_button:
                 Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.instagram.android");
                 if (launchIntent != null) {
                     startActivity(launchIntent);//null pointer check in case package name was not found
@@ -121,7 +113,6 @@ public class MainActivity extends AppCompatActivity
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -131,25 +122,15 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            setFragment(new MainFragment());
+            setFragment(new MainFragment(),true);
         }else if ( id == R.id.nav_log_out){
-            // Configure sign-in to request the user's ID, email address, and basic
-            // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
             FirebaseAuth.getInstance().signOut();
-            /*GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestEmail()
-                    .requestProfile()
-                    .build();
-
-            GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-            mGoogleSignInClient.signOut();*/
             Intent intent = new Intent(this,LoginActivity.class);
             startActivity(intent);
-
         }else if(id == R.id.nav_privacy){
-            setFragment(new PrivacyFragment());
+            setFragment(new PrivacyFragment(),true);
         }else if(id == R.id.nav_terms){
-            setFragment(new TermsFragment());
+            setFragment(new TermsFragment(),true);
         }else if(id == R.id.nav_about){
             AlertDialog alertDialog = new AlertDialog.Builder(this)
                     .setView(R.layout.about_dialog)
@@ -165,9 +146,10 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void setFragment(Fragment fragment) {
+    public void setFragment(Fragment fragment,boolean withAnimation) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        //transaction.setCustomAnimations(R.anim.nav_enter,R.anim.nav_exit);
+        if(withAnimation)
+            transaction.setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit);
         transaction.replace(R.id.mainConstraint,fragment);
         transaction.commit();
     }
@@ -251,6 +233,4 @@ public class MainActivity extends AppCompatActivity
 
 
     }
-
-
 }

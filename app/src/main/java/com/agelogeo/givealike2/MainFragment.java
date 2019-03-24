@@ -57,6 +57,7 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
     ImageView customPhotoWallpaper,customProfile;
     String link = "";
     String tag = "",clipboard = "" , hashtags[];
+    boolean isCategorySelected = false;
 
 
     private OnFragmentInteractionListener mListener;
@@ -158,8 +159,10 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
-                getHashtagsBtn.setText("Get Hashtags");
-                getHashtagsBtn.setEnabled(true);
+                if(isCategorySelected){
+                    getHashtagsBtn.setText("Get Hashtags");
+                    getHashtagsBtn.setEnabled(true);
+                }
             }
 
             @Override
@@ -223,17 +226,17 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == 1 && resultCode == getActivity().RESULT_OK){
-            //Toast.makeText(getContext(),data.getStringExtra("Category"),Toast.LENGTH_SHORT).show();
-            if(!mRewardedVideoAd.isLoaded()) {
+            isCategorySelected = true;
+            if(!mRewardedVideoAd.isLoaded() && !mInterstitialAd.isLoaded()){
                 loadRewardedVideoAd();
-                getHashtagsBtn.setText("Please wait...");
-                getHashtagsBtn.setEnabled(false);
-            }
-            if(!mInterstitialAd.isLoaded()) {
                 mInterstitialAd.loadAd(new AdRequest.Builder().build());
                 getHashtagsBtn.setText("Please wait...");
                 getHashtagsBtn.setEnabled(false);
+            }else{
+                getHashtagsBtn.setText("Get Hashtags");
+                getHashtagsBtn.setEnabled(true);
             }
+
             categoryButton.setText(data.getStringExtra("Category"));
             tag = data.getStringExtra("Category");
         }
@@ -248,6 +251,8 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
         pasteTextView.setVisibility(View.GONE);
         categoryButton.setText(getString(R.string.choose_category));
         getHashtagsBtn.setEnabled(false);
+        loadRewardedVideoAd();
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
     }
 
     public void initializeUI(){
@@ -256,7 +261,7 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
         getHashtagsBtn.setVisibility(View.GONE);
         hashtagsView.setVisibility(View.GONE);
         pasteTextView.setVisibility(View.VISIBLE);
-
+        isCategorySelected = false;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -275,8 +280,10 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
 
     @Override
     public void onRewardedVideoAdLoaded() {
-        getHashtagsBtn.setText("Get Hashtags");
-        getHashtagsBtn.setEnabled(true);
+        if(isCategorySelected){
+            getHashtagsBtn.setText("Get Hashtags");
+            getHashtagsBtn.setEnabled(true);
+        }
     }
 
     @Override
@@ -326,8 +333,10 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
         if (clipboard.hasPrimaryClip()) {
             android.content.ClipDescription description = clipboard.getPrimaryClipDescription();
             android.content.ClipData data = clipboard.getPrimaryClip();
-            if (data != null && description != null && description.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN))
+            if (data != null && description != null && description.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
+
                 return String.valueOf(data.getItemAt(0).getText());
+            }
         }
         Toast.makeText(getContext(),"Please copy a valid link.", Toast.LENGTH_SHORT).show();
         return "";
