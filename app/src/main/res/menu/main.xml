@@ -6,6 +6,6 @@
         android:enabled="true"
         android:icon="@drawable/ig"
         android:title="@string/profile"
-        android:visible="true"
+        android:visible="false"
         app:showAsAction="ifRoom" />
 </menu>

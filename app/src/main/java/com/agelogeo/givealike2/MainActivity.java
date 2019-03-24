@@ -157,11 +157,11 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.main_button:
-                Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.instagram.android");
+                Intent launchIntent = getPackageManager().getLaunchIntentForPackage("");
                 if (launchIntent != null) {
                     startActivity(launchIntent);//null pointer check in case package name was not found
                 }else{
-                    Toast.makeText(getApplicationContext(),"Instagram is not installed.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"App is not installed.",Toast.LENGTH_SHORT).show();
                 }
                 return true;
             default:
