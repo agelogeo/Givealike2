@@ -82,14 +82,17 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
     public void onCreate(Bundle savedInstanceState) {
         myDatabase = getActivity().openOrCreateDatabase("Hashtags",getActivity().MODE_PRIVATE,null);
         mInterstitialAd = new InterstitialAd(getContext());
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(getContext());
         mRewardedVideoAd.setRewardedVideoAdListener(this);
+        loadRewardedVideoAd();
 
         mAuth = FirebaseAuth.getInstance();
         firebaseUser = mAuth.getCurrentUser();
+        new OkayTask().execute(getString(R.string.backend)+"email="+firebaseUser.getEmail()+"&limit=true");
+
         super.onCreate(savedInstanceState);
 
     }
@@ -111,11 +114,11 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
         pasteTextView = view.findViewById(R.id.pasteTextView);
 
         mAdView = view.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("87DB79B25DEDF82128E308BAB391844A").build();
+        //.addTestDevice("87DB79B25DEDF82128E308BAB391844A")
+        AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
         initializeUI();
-
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,7 +168,10 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
             @Override
             public void onAdLoaded() {
                 if(isCategorySelected){
-                    getHashtagsBtn.setText("Get Hashtags");
+                    String temp = "Get Hashtags";
+                    if(isOkay && mRewardedVideoAd.isLoaded())
+                        temp+="+";
+                    getHashtagsBtn.setText(temp);
                     getHashtagsBtn.setEnabled(true);
                 }
             }
@@ -189,6 +195,8 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
             public void onAdClosed() {
                 getHashtagsBtn.setEnabled(false);
                 getHashtagsBtn.setText("Please wait...");
+                if(mRewardedVideoAd.isLoaded())
+                    loadRewardedVideoAd();
                 mInterstitialAd.loadAd(new AdRequest.Builder().build());
                 hashtagsView.setVisibility(View.VISIBLE);
                 Cursor c = myDatabase.rawQuery("SELECT * FROM hashtags WHERE category='"+tag+"'",null);
@@ -238,7 +246,10 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
                 getHashtagsBtn.setText("Please wait...");
                 getHashtagsBtn.setEnabled(false);
             }else{
-                getHashtagsBtn.setText("Get Hashtags");
+                String temp = "Get Hashtags";
+                if(isOkay && mRewardedVideoAd.isLoaded())
+                    temp+="+";
+                getHashtagsBtn.setText(temp);
                 getHashtagsBtn.setEnabled(true);
             }
 
@@ -287,7 +298,10 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
     @Override
     public void onRewardedVideoAdLoaded() {
         if(isCategorySelected){
-            getHashtagsBtn.setText("Get Hashtags");
+            String temp = "Get Hashtags";
+            if(isOkay && mRewardedVideoAd.isLoaded())
+                temp+="+";
+            getHashtagsBtn.setText(temp);
             getHashtagsBtn.setEnabled(true);
         }
     }
@@ -307,6 +321,8 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
         loadRewardedVideoAd();
         if(mInterstitialAd.isLoaded())
             mInterstitialAd.show();
+        else
+            mInterstitialAd.loadAd(new AdRequest.Builder().build());
     }
 
     @Override
@@ -479,7 +495,7 @@ public class MainFragment extends Fragment implements RewardedVideoAdListener{
     }
 
     private void loadRewardedVideoAd() {
-        mRewardedVideoAd.loadAd("ca-app-pub-3940256099942544/5224354917",
+        mRewardedVideoAd.loadAd(getString(R.string.reward_ad_unit_id),
                 new AdRequest.Builder().build());
     }
 

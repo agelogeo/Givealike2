@@ -42,6 +42,13 @@
     <string name="_1523">1523</string>
     <string name="log_in">Log In</string>
 
+    <!--Test ads--><!--
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="reward_ad_unit_id">ca-app-pub-3940256099942544/5224354917</string>
+-->
+    <!--Real Ads-->
+
     <string name="banner_ad_unit_id">ca-app-pub-4781041300358039/1029358837</string>
     <string name="interstitial_ad_unit_id">ca-app-pub-4781041300358039/1077815512</string>
     <string name="reward_ad_unit_id">ca-app-pub-4781041300358039/8764733843</string>
